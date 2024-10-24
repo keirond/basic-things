@@ -1,0 +1,67 @@
+# Project .gitignore file
+
+HELP.md
+
+### Build & Test ###
+out/
+dist/
+build/
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+test-output/
+
+### Node ###
+node_modules/
+
+### Maven ###
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache
+
+### CMake ###
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+### Python ###
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse ###
+.settings/
+.project
+.classpath
+
+### VS Code ###
+.vscode/
+
+### Miscelaneous ###
+tmp/
+temp/
+*.tmp
+*.swp
+*.cache
+*.cover
+*.log
+*.bak
+*.backup
+*.DS_Store
