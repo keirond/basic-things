@@ -48,7 +48,26 @@ int main() {
 	float _float_min = FLT_MIN; // 4 bytes
 	float _float_max = FLT_MAX;
 
-	// TODO
+	double _double_min = DBL_MIN; // 8 bytes
+	double _double_max = DBL_MAX;
+
+	long double _long_double_min = LDBL_MIN; // 8, 10, 12, or 16 bytes depending on the compiler and architecture
+	long double _long_double_max = LDBL_MAX;
+
+	//======= Character data types
+
+	char _char = 'A';	// 1 bytes
+	char _char_no = 97;
+
+	unsigned char _unsigned_char_max = UCHAR_MAX;
+
+	signed char _signed_char_min = SCHAR_MIN;
+	signed char _signed_char_max = SCHAR_MAX;
+
+	//======= Boolean data types
+
+	bool _bool = true;
+	bool _bool_no = 1;
 
 	//======= Set operations
 	std::set<int> _A = { 1, 2, 3, 4 };
