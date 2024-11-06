@@ -56,7 +56,7 @@ int main() {
 
 	//======= Character data types
 
-	char _char = 'A';	// 1 bytes
+	char _char = 'A'; // 1 bytes
 	char _char_no = 97;
 
 	unsigned char _unsigned_char_max = UCHAR_MAX;
@@ -68,6 +68,15 @@ int main() {
 
 	bool _bool = true;
 	bool _bool_no = 1;
+
+	//======= Type modifiers
+
+	//======= Type casting
+
+	//======= Operator Precedence
+
+	std::cout << "operator precedence: " << (-1 == -1 > 0) << std::endl;
+	std::cout << "operator precedence: " << (++ ++ ++ ++_short) << std::endl;
 
 	//======= Set operations
 	std::set<int> _A = { 1, 2, 3, 4 };
