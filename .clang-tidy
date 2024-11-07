@@ -10,11 +10,11 @@ Checks: >
   readability-function-cognitive-complexity,
 
   -misc-const-correctness,
-  -misc-non-private-member-variables-in-classes,
   -misc-no-recursion,
-  -misc-use-anonymous-namespace,
   -misc-include-cleaner
 
+# -misc-non-private-member-variables-in-classes,
+# -misc-use-anonymous-namespace,
 WarningsAsErrors: ""
 
 CheckOptions:

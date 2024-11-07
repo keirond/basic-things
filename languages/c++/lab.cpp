@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
@@ -23,31 +24,24 @@ using ll = long long;
 
 class Solution {
 public:
-	vector<vector<int>> towerOfHanoi(int n) {
-		return towerOfHanoi(n, 1, 3, 2);
-	}
+	int lastStoneWeightII(vector<int> &stones) {
+		int n = stones.size();
+		int sum = accumulate(stones.begin(), stones.end(), 0, [](int a, int b) {
+			return a + abs(b);
+		});
+		vector<int> dp(sum + 1, INT_MAX);
 
-	vector<vector<int>> towerOfHanoi(int n, int source, int dest, int intermediate) {
-		if (n == 1)
-			return {
-				{ source, dest }
-			};
-		vector<vector<int>> ans = towerOfHanoi(n - 1, source, intermediate, dest);
-		ans.push_back({ source, dest });
-		vector<vector<int>> last = towerOfHanoi(n - 1, intermediate, dest, source);
-		ans.insert(ans.end(), last.begin(), last.end());
-		return ans;
-	}
+		for (int i = 0; i <= sum; ++i) {
+			dp[i] = i;
+		}
 
-	long long toh(int n, int from, int to, int aux) {
-		if (n == 0) return 0;
-		long long ans = toh(n - 1, from, aux, to);
-		printf("move disk %d from rod %d to rod %d\n", N, from, to);
-		return ans + 1 + toh(n - 1, aux, to, from);
+		for (int i = n - 1; i >= 0; --i) {
+			vector<int> temp(sum + 1, INT_MAX);
+			for (int j = 0; j <= sum - abs(stones[i]); ++j) {
+				temp[j] = min(dp[j + abs(stones[i])], dp[abs(j - abs(stones[i]))]);
+			}
+			dp = temp;
+		}
+		return dp[0];
 	}
 };
-
-int main() {
-	Solution s = Solution();
-	s.toh(3, 1, 3, 2);
-}
