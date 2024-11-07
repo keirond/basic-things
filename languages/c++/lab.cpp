@@ -1,8 +1,11 @@
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <cstdio>
 #include <deque>
 #include <format>
 #include <iostream>
+#include <numeric>
 #include <queue>
 #include <stack>
 #include <string>
@@ -18,30 +21,33 @@ using ll = long long;
 #define pb push_back
 #define mp make_pair
 
-struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode() : val(0), left(nullptr), right(nullptr) {}
-	TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-	TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-
 class Solution {
 public:
-	vector<string> binaryTreePaths(TreeNode *root) {
-		if (root == nullptr) return {};
-		vector<string> ans;
-		stack<pair<TreeNode *, string>> s;
-		s.push(make_pair(root, to_string(root->val)));
+	vector<vector<int>> towerOfHanoi(int n) {
+		return towerOfHanoi(n, 1, 3, 2);
+	}
 
-		while (s.size()) {
-			auto [top, top_val] = s.top();
-			s.pop();
-			if (top->left == nullptr && top->right == nullptr) ans.push_back(top_val);
-			if (top->left) s.push(make_pair(top->left, top_val + "->" + to_string(top->left->val)));
-			if (top->right) s.push(make_pair(top->right, top_val + "->" + to_string(top->right->val)));
-		}
+	vector<vector<int>> towerOfHanoi(int n, int source, int dest, int intermediate) {
+		if (n == 1)
+			return {
+				{ source, dest }
+			};
+		vector<vector<int>> ans = towerOfHanoi(n - 1, source, intermediate, dest);
+		ans.push_back({ source, dest });
+		vector<vector<int>> last = towerOfHanoi(n - 1, intermediate, dest, source);
+		ans.insert(ans.end(), last.begin(), last.end());
 		return ans;
 	}
+
+	long long toh(int n, int from, int to, int aux) {
+		if (n == 0) return 0;
+		long long ans = toh(n - 1, from, aux, to);
+		printf("move disk %d from rod %d to rod %d\n", N, from, to);
+		return ans + 1 + toh(n - 1, aux, to, from);
+	}
 };
+
+int main() {
+	Solution s = Solution();
+	s.toh(3, 1, 3, 2);
+}
