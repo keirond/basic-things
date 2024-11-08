@@ -46,7 +46,7 @@ public:
 		vector<ll> r_sum = get_subset_sums(n / 2, n);
 		sort(l_sum.begin(), l_sum.end());
 		sort(r_sum.begin(), r_sum.end());
- 
+
 		ll ans = INT_MAX;
 		for (ll i : l_sum) {
 			auto low = lower_bound(r_sum.begin(), r_sum.end(), -i);
