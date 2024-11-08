@@ -34,7 +34,7 @@ public:
 			for (int i = 0; i < (1 << n); ++i) {
 				ll temp = 0;
 				for (int j = 0; j < n; ++j) {
-					if (n & (1 << j)) temp += stones[j + l];
+					if (i & (1 << j)) temp += stones[j + l];
 					else temp -= stones[j + l];
 				}
 				res.push_back(temp);
@@ -52,20 +52,47 @@ public:
 			auto low = lower_bound(r_sum.begin(), r_sum.end(), -i);
 			int ind = low - r_sum.begin();
 			if (ind != 0) {
-				ans = min(ans, i - r_sum[ind - 1]);
+				ans = min(ans, abs(r_sum[ind - 1] + i));
 			}
-			if (ind != r_sum.size() - 1) {
-				ans = min(ans, r_sum[ind] - i);
+			if (ind != r_sum.size()) {
+				ans = min(ans, abs(r_sum[ind] + i));
 			}
 		}
 		return ans;
 	}
+
+	int lastStoneWeightII(vector<int>& stones) {
+        int n = stones.size();
+        int sum = 0;
+        int minusSum;
+
+        for(int i=0;i<n;i++){
+            sum+=stones[i];
+        }
+
+        bitset<3001> dp(0);
+        dp[0]=1;
+        for(int num : stones){
+            dp = dp | (dp<<num);
+        }
+
+        for(int i=sum/2;i>=0;i--){
+            if (dp[i]==1){
+                minusSum = i;
+                break;
+            }
+        }
+        // cout<<dp<<endl;
+        // cout<<minusSum<<endl;
+
+        return sum-2*minusSum;
+    }
 };
 
 class InputReader {
 public:
 	auto read() {
-		return vector<int>{2,7,4,1,8,1};
+		return vector<int>{ 2, 7, 4, 1, 8, 1 };
 	}
 };
 
