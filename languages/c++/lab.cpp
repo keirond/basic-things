@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <any>
 #include <climits>
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 #include <deque>
 #include <format>
 #include <iostream>
@@ -26,22 +28,61 @@ class Solution {
 public:
 	int lastStoneWeightII(vector<int> &stones) {
 		int n = stones.size();
-		int sum = accumulate(stones.begin(), stones.end(), 0, [](int a, int b) {
-			return a + abs(b);
-		});
-		vector<int> dp(sum + 1, INT_MAX);
-
-		for (int i = 0; i <= sum; ++i) {
-			dp[i] = i;
-		}
-
-		for (int i = n - 1; i >= 0; --i) {
-			vector<int> temp(sum + 1, INT_MAX);
-			for (int j = 0; j <= sum - abs(stones[i]); ++j) {
-				temp[j] = min(dp[j + abs(stones[i])], dp[abs(j - abs(stones[i]))]);
+		auto get_subset_sums = [&](int l, int r) -> vector<ll> {
+			int n = r - l;
+			vector<ll> res;
+			for (int i = 0; i < (1 << n); ++i) {
+				ll temp = 0;
+				for (int j = 0; j < n; ++j) {
+					if (n & (1 << j)) temp += stones[j + l];
+					else temp -= stones[j + l];
+				}
+				res.push_back(temp);
 			}
-			dp = temp;
+			return res;
+		};
+
+		vector<ll> l_sum = get_subset_sums(0, n / 2);
+		vector<ll> r_sum = get_subset_sums(n / 2, n);
+		sort(l_sum.begin(), l_sum.end());
+		sort(r_sum.begin(), r_sum.end());
+ 
+		ll ans = INT_MAX;
+		for (ll i : l_sum) {
+			auto low = lower_bound(r_sum.begin(), r_sum.end(), -i);
+			int ind = low - r_sum.begin();
+			if (ind != 0) {
+				ans = min(ans, i - r_sum[ind - 1]);
+			}
+			if (ind != r_sum.size() - 1) {
+				ans = min(ans, r_sum[ind] - i);
+			}
 		}
-		return dp[0];
+		return ans;
 	}
 };
+
+class InputReader {
+public:
+	auto read() {
+		return vector<int>{2,7,4,1,8,1};
+	}
+};
+
+class OutputPrinter {
+public:
+	void print(any val) {
+		if (val.type() == typeid(int)) {
+			cout << any_cast<int>(val) << endl;
+		}
+	}
+};
+
+int main() {
+	InputReader i = InputReader();
+	Solution s = Solution();
+	OutputPrinter o = OutputPrinter();
+
+	auto input = i.read();
+	o.print(s.lastStoneWeightII(input));
+}
