@@ -1,9 +1,10 @@
 #include <iostream>
+using namespace std;
 
 int main() {
-	int unused_var = 10; // Unused variable
 
-	std::cout << "Hello World!" << std::endl;
+	string a("abc");
+	cout << a.substr(3) << endl;
 
 	return 0;
 }
